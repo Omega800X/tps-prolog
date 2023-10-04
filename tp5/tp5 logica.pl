@@ -102,6 +102,22 @@ filtraHombres([H|T], SALIDA) :- mujer(H), filtraHombres(T,SALIDA).
 %       Ls = [1, 2, a] ;
 insertado(X, Xs, Ys) :- elimina(X, Ys, Xs).
 
-
+% 10) Definir num_a_bin(N, Bs) donde X es un número natural, y Bs es una lista
+% compuesta por los dígitos binarios que lo representan.
+num_a_bin(0, [0]).
+num_a_bin(1, [1]).
+num_a_bin(N, Bs) :- N > 1,
+                    RESTO is mod(N, 2),
+                    COCIENTE is div(N, 2),
+                    num_a_bin(COCIENTE, R),
+                    concatenar(R, [RESTO], Bs).
+                    
+% 11) Definir bin_a_num(Bs, N), que transforme un número binario al número
+% natural que representa.
+bin_a_num([0], 0).
+bin_a_num([1], 1).
+bin_a_num([B|Bs], N) :- B =:= 0, bin_a_num(Bs, R), N is R.
+bin_a_num([B|Bs], N) :- B =:= 1, longitud(Bs, X), E is X,
+                        D is 2 ** E, bin_a_num(Bs, R), N is D + R.
 
 
