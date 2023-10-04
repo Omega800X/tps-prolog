@@ -55,9 +55,35 @@ menordelalista([_|LC], R):- menordelalista(LC, R).
 %7. Definir la relación elementos_pares(L1s, L2s) de forma que si L1s es una lista de
 %números, entonces L2s es la lista de los elementos pares de L1s.
 
+esPar(NUM) :- NUM mod 2 =:= 0.
+esImpar(NUM) :- NUM mod 2 =\= 0.
+elementos_pares([],[]).
+elementos_pares([H|T], [H|T2]) :- esPar(H), elementos_pares(T, T2).
+elementos_pares([H|T], RES) :- esImpar(H), elementos_pares(T, RES).
 
 
 %8. Generar una lista de hombres filtrando elementos de una lista de personas (que pueden ser
 %varones o mujeres: filtraHombres(Xs, Ys). donde Xs es la lista de personas y, Ys es la
 %lista de hombres en Xs.
+
+mujer(silvia).
+mujer(maria).
+mujer(elisa).
+mujer(silvina).
+mujer(marta).
+mujer(alicia).
+mujer(paola).
+mujer(pamela).
+varon(jose).
+varon(juan).
+varon(jorge).
+varon(pedro).
+varon(luis).
+varon(carlos).
+varon(mario).
+varon(pablo).
+
+filtraHombres([], []).
+filtraHombres([H|T], [H|SALIDA]) :- varon(H), filtraHombres(T,SALIDA).
+filtraHombres([H|T], SALIDA) :- mujer(H), filtraHombres(T,SALIDA).
 
