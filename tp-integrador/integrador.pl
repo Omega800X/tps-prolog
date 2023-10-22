@@ -6,20 +6,29 @@ remove_arrow(A -> D, A, D).
 % Ej: attributes_to_list(abc, X) va a dar como resultado X = [a, b, c]
 attributes_to_list(Input, List) :- atom_string(Input, X), string_chars(X, List).
 
+% Predicado que convierte una dependencia funcional en una lista de listas.
+dependency_to_lists(Dependency, [Result]) :- remove_arrow(Dependency, Before, After),
+                                         attributes_to_list(Before, List1),
+                                         attributes_to_list(After, List2),
+                                         append([List1], [List2], Result).
+
 % Predicado que convierte la lista de dependencias en una lista que
 % contiene listas de listas.
-dependencies_to_lists([Element], Lists) :- remove_arrow(Element, Before, After),
-                                            attributes_to_list(Before, R1),
-                                            attributes_to_list(After, R2),
-                                            append([R1], [R2], Lists).
-dependencies_to_lists([H | T], Lists) :- remove_arrow(H, Before, After),
-                                           attributes_to_list(Before, R1),
-                                           attributes_to_list(After, R2),
-                                           append([R1], [R2], DependencyLists),
-                                           dependencies_to_lists(T, Result),
-                                           append([DependencyLists], [Result], Lists).
+dependencies_to_lists([Dependency], Lists) :- dependency_to_lists(Dependency, Lists).
+dependencies_to_lists([H | T], Lists) :- dependency_to_lists(H, Aux1),
+                                         dependencies_to_lists(T, Aux2),
+                                         append(Aux1, Aux2, Lists).
 
 % Predicado que permite calcular el cierre de un conjunto de atributos.
 % FDs = functional dependencies
-% TO-DO
-closure_of_set_of_attributes(Set, FDs, Closure).
+closure_of_set_of_attributes(Set, [], Set).
+closure_of_set_of_attributes(Set, [H | T], Closure) :- nth0(0, H, X),
+                                                       nth0(1, H, Y),
+                                                       subset(X, Set),
+                                                       union(Set, Y, NewSet),
+                                                       closure_of_set_of_attributes(NewSet, T, Aux),
+                                                       union(Set, Aux, Closure).
+closure_of_set_of_attributes(Set, [H | T], Closure) :- nth0(0, H, X),
+                                                       \+subset(X, Set),
+                                                       closure_of_set_of_attributes(Set, T, Closure).
+
