@@ -32,3 +32,18 @@ closure_of_set_of_attributes(Set, [H | T], Closure) :- nth0(0, H, X),
                                                        \+subset(X, Set),
                                                        closure_of_set_of_attributes(Set, T, Closure).
 
+
+
+
+printDep(Dep, Result):- write(Dep).
+
+original_set([], _, _):- write('}').
+original_set([DepCab | DepCola], _):- write("{"),
+                                               printDep(DepCab, Dep, Result),
+                                               original_set(DepCola, _, _).
+original_set([DepCab | DepCola], _, _):- write(","),
+                                                printDep(DepCab, Dep, Result),
+                                                original_set(DepCola, _, _).
+
+
+
