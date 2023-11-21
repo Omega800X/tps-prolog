@@ -87,8 +87,10 @@ listaAAtributos(Lista, Atributos) :-
   agregarFlecha(LadoIzq, LadoDer, LadoIzq -> LadoDer).
 
 listaAAtomo([H, T], Res) :-
-                   listaAAtributos(H, R1),
-                   listaAAtributos(T, R2),
+                   sort(H, HS),
+                   sort(T, TS),
+                   listaAAtributos(HS, R1),
+                   listaAAtributos(TS, R2),
                    agregarFlecha(R1, R2, Res).
 
 conjuntoAFormatoLegible([H], [R]) :-
