@@ -77,9 +77,8 @@ db(DFs, Atributos) :-
         writeln("Conjunto cerrado en atributos (formato lista):"),
         writeln(Resultado),
         conjuntoAFormatoLegible(Resultado, P),
-        write("P:"), writeln(P),
         writeln("Conjunto cerrado en atributos:"),
-        imprimirConjuntoEnFormatoHumano(P).
+        write(P).
 
 % Predicados para imprimir conjuntos
 listaAAtributos(Lista, Atributos) :-
@@ -92,15 +91,9 @@ listaAAtomo([H, T], Res) :-
                    listaAAtributos(T, R2),
                    agregarFlecha(R1, R2, Res).
 
-conjuntoAFormatoLegible(Conj, R) :-
-                member(X, Conj),
-                listaAAtomo(X, Ri),
-                append([Ri], R).
-
-
-imprimirConjuntoEnFormatoHumano([H]):-
-                                      write(H).
-imprimirConjuntoEnFormatoHumano([H|T]) :-
-                                       write(H),
-                                       write(", "),
-                                       imprimirConjuntoEnFormatoHumano(T).
+conjuntoAFormatoLegible([H], [R]) :-
+                             listaAAtomo(H, R).
+conjuntoAFormatoLegible([H | T], R) :-
+                listaAAtomo(H, Ri),
+                conjuntoAFormatoLegible(T, Rii),
+                append([Ri], Rii, R).
