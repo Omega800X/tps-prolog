@@ -19,8 +19,6 @@ convertirDependencias([Cab | Cola], Salida) :- convertirDependencia(Cab, LC),
 
 % Predicado para fusionar reglas con mismo lado izquierdo
 fusionarLadosIzquierdos([], []).
-%fusionarLadosIzquierdos([[[X], Y] | T], [[[X], Z1] | R]) :-
-%findall(LadoDer, (member([[X], LadoDer], T)), LadosDers),
 fusionarLadosIzquierdos([[X, Y] | T], [[X, Z1] | R]) :-
   findall(LadoDer, (member([X, LadoDer], T)), LadosDers),
   append([Y | LadosDers], Z),
