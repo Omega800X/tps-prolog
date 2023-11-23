@@ -82,7 +82,8 @@ db(DFs, Atributos) :-
 listaAAtributos(Lista, Atributos) :-
   atomics_to_string(Lista, String),
   atom_string(Atributos, String).
-  agregarFlecha(LadoIzq, LadoDer, LadoIzq -> LadoDer).
+
+agregarFlecha(LadoIzq, LadoDer, LadoIzq -> LadoDer).
 
 listaAAtomo([H, T], Res) :-
                    sort(H, HS),
